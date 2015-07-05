@@ -1,4 +1,4 @@
-﻿namespace DotNetUtils.Interface
+﻿namespace DotNetUtils
 {
     public interface ISeekable
     {
@@ -15,6 +15,7 @@
         int ReadChar();
         string ReadTo(string match, bool trimPattern = true);
         string ReadTo(bool trimPattern, string escape, params string[] terminitors);
+        string ReadTo(bool trimPattern, out string matched, string escape, params string[] terminitors);
         string ReadTo(int index);
     }
 }

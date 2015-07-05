@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using DotNetUtils.Interface;
 
-namespace DotNetUtils.UtilClasses
+namespace DotNetUtils
 {
     public class SeekableString : ISeekable
     {
         private readonly string _src;
+
+        [DebuggerStepThrough]
         public SeekableString(string src)
         {
             if (src == null)
@@ -18,13 +20,23 @@ namespace DotNetUtils.UtilClasses
         }
         public string Source
         {
+            [DebuggerStepThrough]
             get { return _src; }
+        }
+        public string Left
+        {
+            [DebuggerStepThrough]
+            get
+            {
+                return Eof? _src.Substring(Position, Length - Position) : String.Empty;
+            }
         }
 
         public int Position { get; set; }
 
         public bool Eof
         {
+            [DebuggerStepThrough]
             get { return Position >= _src.Length; }
         }
 
@@ -80,6 +92,12 @@ namespace DotNetUtils.UtilClasses
 
         public string ReadTo(bool trimPattern, string escape, params string[] terminitors)
         {
+            string matched = null;
+            return ReadTo(trimPattern, out matched, escape, terminitors);
+        }
+
+        public string ReadTo(bool trimPattern, out string matched, string escape, params string[] terminitors)
+        {
             if (escape == String.Empty)
             {
                 throw new ArgumentNullException("escape");
@@ -122,6 +140,7 @@ namespace DotNetUtils.UtilClasses
                         }
                         if (!escaping)
                         {
+                            matched = terminitor;
                             return sb.ToString();
                         }
                     }
@@ -135,6 +154,7 @@ namespace DotNetUtils.UtilClasses
                     sb.Append(_src[Position++]);
                 }
             }
+            matched = null;
             return sb.ToString();
         }
 
