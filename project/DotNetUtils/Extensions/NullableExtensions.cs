@@ -143,8 +143,28 @@ namespace DotNetUtils
         public static decimal DefaultIfNull(this decimal? inputValue, decimal defaultValue = default(decimal), bool overallCondition = true)
         {
             return overallCondition
-                       ? (inputValue == null ? defaultValue : inputValue.Value)
+                       ? (inputValue ?? defaultValue)
                        : defaultValue;
+        }
+
+        public static int? ParseIntNullable(this object value)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+            var tempInt = value as int?;
+            if (tempInt != null)
+            {
+                return tempInt;
+            }
+            var tempString = value as string ?? value.ToString();
+            var i = 0;
+            if (int.TryParse(tempString, out i))
+            {
+                return i;
+            }
+            return null;
         }
 
         /// <summary>
