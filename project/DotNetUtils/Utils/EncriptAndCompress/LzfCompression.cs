@@ -5,15 +5,15 @@ namespace DotNetUtils
     /// <summary>
     /// Improved C# LZF Compressor, a very small data compression library. The compression algorithm is extremely fast. 
     /// </summary>
-    public sealed class LzfCompression
+    public class LzfCompression
     {
-        private readonly long[] HashTable = new long[HSIZE];
+        private readonly long[] _hashTable = new long[Hsize];
 
-        private const uint HLOG = 14;
-        private const uint HSIZE = (1 << 14);
-        private const uint MAX_LIT = (1 << 5);
-        private const uint MAX_OFF = (1 << 13);
-        private const uint MAX_REF = ((1 << 8) + (1 << 3));
+        private const uint Hlog = 14;
+        private const uint Hsize = (1 << 14);
+        private const uint MaxLit = (1 << 5);
+        private const uint MaxOff = (1 << 13);
+        private const uint MaxRef = ((1 << 8) + (1 << 3));
 
         /// <summary>
         /// Compresses the data using LibLZF algorithm
@@ -25,28 +25,26 @@ namespace DotNetUtils
         /// <returns>The size of the compressed archive in the output buffer</returns>
         public int Compress(byte[] input, int inputLength, byte[] output, int outputLength)
         {
-            Array.Clear(HashTable, 0, (int)HSIZE);
+            Array.Clear(_hashTable, 0, (int)Hsize);
 
-            long hslot;
             uint iidx = 0;
             uint oidx = 0;
-            long reference;
 
-            uint hval = (uint)(((input[iidx]) << 8) | input[iidx + 1]); // FRST(in_data, iidx);
-            long off;
-            int lit = 0;
+            var hval = (uint)(((input[iidx]) << 8) | input[iidx + 1]); // FRST(in_data, iidx);
+            var lit = 0;
 
             for (; ; )
             {
                 if (iidx < inputLength - 2)
                 {
                     hval = (hval << 8) | input[iidx + 2];
-                    hslot = ((hval ^ (hval << 5)) >> (int)(((3 * 8 - HLOG)) - hval * 5) & (HSIZE - 1));
-                    reference = HashTable[hslot];
-                    HashTable[hslot] = (long)iidx;
+                    long hslot = ((hval ^ (hval << 5)) >> (int)(((3 * 8 - Hlog)) - hval * 5) & (Hsize - 1));
+                    var reference = _hashTable[hslot];
+                    _hashTable[hslot] = iidx;
 
 
-                    if ((off = iidx - reference - 1) < MAX_OFF
+                    long off;
+                    if ((off = iidx - reference - 1) < MaxOff
                         && iidx + 4 < inputLength
                         && reference > 0
                         && input[reference + 0] == input[iidx + 0]
@@ -56,14 +54,14 @@ namespace DotNetUtils
                     {
                         /* match found at *reference++ */
                         uint len = 2;
-                        uint maxlen = (uint)inputLength - iidx - len;
-                        maxlen = maxlen > MAX_REF ? MAX_REF : maxlen;
+                        var maxlen = (uint)inputLength - iidx - len;
+                        maxlen = maxlen > MaxRef ? MaxRef : maxlen;
 
                         if (oidx + lit + 1 + 3 >= outputLength)
-                            return 0;
+                        {return 0;}
 
                         do
-                            len++;
+                        {len++;}
                         while (len < maxlen && input[reference + len] == input[iidx + len]);
 
                         if (lit != 0)
@@ -71,7 +69,7 @@ namespace DotNetUtils
                             output[oidx++] = (byte)(lit - 1);
                             lit = -lit;
                             do
-                                output[oidx++] = input[iidx + lit];
+                            {output[oidx++] = input[iidx + lit];}
                             while ((++lit) != 0);
                         }
 
@@ -94,31 +92,31 @@ namespace DotNetUtils
                         hval = (uint)(((input[iidx]) << 8) | input[iidx + 1]);
 
                         hval = (hval << 8) | input[iidx + 2];
-                        HashTable[((hval ^ (hval << 5)) >> (int)(((3 * 8 - HLOG)) - hval * 5) & (HSIZE - 1))] = iidx;
+                        _hashTable[((hval ^ (hval << 5)) >> (int)(((3 * 8 - Hlog)) - hval * 5) & (Hsize - 1))] = iidx;
                         iidx++;
 
                         hval = (hval << 8) | input[iidx + 2];
-                        HashTable[((hval ^ (hval << 5)) >> (int)(((3 * 8 - HLOG)) - hval * 5) & (HSIZE - 1))] = iidx;
+                        _hashTable[((hval ^ (hval << 5)) >> (int)(((3 * 8 - Hlog)) - hval * 5) & (Hsize - 1))] = iidx;
                         iidx++;
                         continue;
                     }
                 }
                 else if (iidx == inputLength)
-                    break;
+                {break;}
 
                 /* one more literal byte we must copy */
                 lit++;
                 iidx++;
 
-                if (lit == MAX_LIT)
+                if (lit == MaxLit)
                 {
-                    if (oidx + 1 + MAX_LIT >= outputLength)
-                        return 0;
+                    if (oidx + 1 + MaxLit >= outputLength)
+                    {return 0;}
 
-                    output[oidx++] = (byte)(MAX_LIT - 1);
+                    output[oidx++] = (byte)(MaxLit - 1);
                     lit = -lit;
                     do
-                        output[oidx++] = input[iidx + lit];
+                    {output[oidx++] = input[iidx + lit];}
                     while ((++lit) != 0);
                 }
             }
@@ -126,12 +124,12 @@ namespace DotNetUtils
             if (lit != 0)
             {
                 if (oidx + lit + 1 >= outputLength)
-                    return 0;
+                {return 0;}
 
                 output[oidx++] = (byte)(lit - 1);
                 lit = -lit;
                 do
-                    output[oidx++] = input[iidx + lit];
+                {output[oidx++] = input[iidx + lit];}
                 while ((++lit) != 0);
             }
 
@@ -167,17 +165,17 @@ namespace DotNetUtils
                     }
 
                     do
-                        output[oidx++] = input[iidx++];
+                    {output[oidx++] = input[iidx++];}
                     while ((--ctrl) != 0);
                 }
                 else /* back reference */
                 {
-                    uint len = ctrl >> 5;
+                    var len = ctrl >> 5;
 
-                    int reference = (int)(oidx - ((ctrl & 0x1f) << 8) - 1);
+                    var reference = (int)(oidx - ((ctrl & 0x1f) << 8) - 1);
 
                     if (len == 7)
-                        len += input[iidx++];
+                    {len += input[iidx++];}
 
                     reference -= input[iidx++];
 
@@ -197,7 +195,7 @@ namespace DotNetUtils
                     output[oidx++] = output[reference++];
 
                     do
-                        output[oidx++] = output[reference++];
+                    {output[oidx++] = output[reference++];}
                     while ((--len) != 0);
                 }
             }

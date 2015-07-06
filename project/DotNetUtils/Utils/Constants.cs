@@ -5,7 +5,6 @@
         public const string XmlDeclaration = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
 
         public const string
-            DateFormat = "MM/dd/yyyy",
             IdListElementName = "IdList",
             IdListItemName = "Item",
             IdListAttributeName = "Id",
@@ -44,17 +43,17 @@
         /// <summary>
         /// Gets CurrencyFormatSpecifier with currency symbol place holder
         /// </summary>
-        internal const string CurrencyFormatSpecifierPattern = "{0}#,0";
+        public const string CurrencyFormatSpecifierPattern = "{0}#,0";
 
         /// <summary>
         /// Gets CurrencyFormatSpecifier with currency symbol place holder and decimal part
         /// </summary>
-        internal const string CurrencyFormatWithDecimalSpecifierPattern = "{0}#,0.00";
+        public const string CurrencyFormatWithDecimalSpecifierPattern = "{0}#,0.00";
 
         /// <summary>
         /// Gets CurrencyFormatSpecifier with currency symbol place holder with 4 digits after decimal point and decimal part
         /// </summary>
-        internal const string CurrencyFormatWith4DigitsDecimalSpecifierPattern = "{0}#,0.0000";
+        public const string CurrencyFormatWith4DigitsDecimalSpecifierPattern = "{0}#,0.0000";
 
     }
 }

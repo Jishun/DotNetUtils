@@ -8,6 +8,9 @@ using System.Xml;
 
 namespace DotNetUtils
 {
+    /// <summary>
+    /// Xml/xsd reference resolver for laoding from embeded resouce.
+    /// </summary>
     public class EmbededXmlResolver : XmlUrlResolver
     {
         private readonly Assembly _resourceAssembly = null;

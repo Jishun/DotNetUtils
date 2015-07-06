@@ -82,16 +82,16 @@ namespace DotNetUtils
 
 
         /// <summary>
-        /// Determine if specific <paramref name="input"/> is a valid SSN
+        /// Determine if specific <paramref name="input"/> is a valid US SSN
         /// </summary>
-        /// <param name="input">A input expected to be in SSN format</param>
+        /// <param name="input">A input expected to be in US SSN format</param>
         /// <returns>
-        ///     <c>True</c> if <paramref name="input"/> is in SSN format. <c>False</c> otherwise
+        ///     <c>True</c> if <paramref name="input"/> is in US SSN format. <c>False</c> otherwise
         /// </returns>
         public static bool IsValidSsn(this string input)
         {
-            // SSN should format like xxx-xx-xxxx or xxxxxxxxx
-            string pattern = @"^\d{3}-?\d{2}-?\d{4}$";
+            // US SSN should format like xxx-xx-xxxx or xxxxxxxxx
+            var pattern = @"^\d{3}-?\d{2}-?\d{4}$";
             return !String.IsNullOrWhiteSpace(input) && Regex.IsMatch(input, pattern, RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline | RegexOptions.IgnoreCase);
         }
 
@@ -766,8 +766,7 @@ namespace DotNetUtils
             {
                 return str;
             }
-            string result = string.Empty;
-            result = Regex.Replace(str, @"[^a-zA-Z0-9\(\)&'\-# ]", "");
+            var result = Regex.Replace(str, @"[^a-zA-Z0-9\(\)&'\-# ]", "");
             result = Regex.Replace(result, @" {2,}", " ");
             return result;
         }
@@ -783,18 +782,17 @@ namespace DotNetUtils
             {
                 return str;
             }
-            string result = string.Empty;
-            result = Regex.Replace(str, @"[^a-zA-Z0-9/\- ]", "");
+            var result = Regex.Replace(str, @"[^a-zA-Z0-9/\- ]", "");
             result = Regex.Replace(result, @" {2,}", " ");
             return result;
         }
 
         /// <summary>
-        /// Validates if specific string is a valid phone number
+        /// Validates if specific string is a valid Us phone number
         /// </summary>
         /// <param name="str">The input string.</param>
         /// <param name="acceptEmpty">Set to TRUE if should regard empty string as valid</param>
-        public static bool IsValidPhoneNumber(this string str, bool acceptEmpty = false)
+        public static bool IsValidUsPhoneNumber(this string str, bool acceptEmpty = false)
         {
             var reg = new Regex(RegexPhoneNumber);
             // set to true if accept empty
@@ -948,8 +946,8 @@ namespace DotNetUtils
             {
                 return string.Empty;
             }
-            StringBuilder strBuilder = new StringBuilder();
-            for (int i = val.Length - 1; i >= 0 && Char.IsDigit(val, i); i--)
+            var strBuilder = new StringBuilder();
+            for (var i = val.Length - 1; i >= 0 && Char.IsDigit(val, i); i--)
             {
                 strBuilder.Insert(0, val[i]);
             }
@@ -1076,15 +1074,6 @@ namespace DotNetUtils
             return src.IndexOf(pat, StringComparison.InvariantCultureIgnoreCase) >= 0;
         }
 
-        public static string ExtractAmountInfo(this string amount, char decimalpoint = '.')
-        {
-            if (amount.IsNullOrWhiteSpace())
-            {
-                throw new ArgumentNullException("amount");
-            }
-            return new string(amount.Where(c => char.IsDigit(c) || c == decimalpoint || c == '-').ToArray());
-        }
-
         public static XElement ConvertToXElement(this string content, XNamespace ns)
         {
             if (content.IsNullOrWhiteSpace())
@@ -1105,15 +1094,6 @@ namespace DotNetUtils
                 element.Attribute("xmlns").Remove();
             }
             return element;
-        }
-
-        public static string ToControlledName(this string name)
-        {
-            if (name.IsNullOrWhiteSpace())
-            {
-                return "    ".ToFixLength(4);
-            }
-            return new string(name.Where(c => char.IsLetterOrDigit(c)).Take(4).ToArray());
         }
 
         public static string SafePadLeft(this string raw, int totalWidth, char paddingChar)
@@ -1244,5 +1224,112 @@ namespace DotNetUtils
                 list.Add(pattern.FormatInvariantCulture(args));
             }
         }
+        public static IEnumerable<byte> GetUntil(this BinaryReader src, string pattern)
+        {
+            if (src == null || String.IsNullOrEmpty(pattern))
+            {
+                yield break;
+            }
+            var matching = 0;
+            while (src.BaseStream.Position < src.BaseStream.Length)
+            {
+                var c = src.ReadByte();
+                if (c == pattern[matching])
+                {
+                    if (matching < pattern.Length - 1)
+                    {
+                        matching++;
+                    }
+                    else
+                    {
+                        yield break;
+                    }
+                }
+                else
+                {
+                    for (var i = 0; i < matching; i++)
+                    {
+                        yield return (byte)pattern[i];
+                    }
+                    matching = 0;
+                    yield return (byte)c;
+                }
+            }
+        }
+
+        public static string GetUntil(this StreamReader src, string pattern)
+        {
+            if (src == null || String.IsNullOrEmpty(pattern))
+            {
+                return null;
+            }
+            var sb = new StringBuilder();
+            int c;
+            var matching = 0;
+            while ((c = src.Read()) != -1)
+            {
+                sb.Append((char)c);
+                if (c == pattern[matching])
+                {
+                    if (matching < pattern.Length - 1)
+                    {
+                        matching++;
+                    }
+                    else
+                    {
+                        var ret = sb.ToString();
+                        if (ret.Length == pattern.Length)
+                        {
+                            return String.Empty;
+                        }
+                        return ret.Substring(0, ret.Length - pattern.Length);
+                    }
+                }
+                else
+                {
+                    matching = 0;
+                }
+            }
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Get the sub string before the pattern's position
+        /// </summary>
+        /// <returns></returns>
+        public static string GetUntil(this string src, string pattern, out string left, bool includePattern = false)
+        {
+            left = src;
+            if (String.IsNullOrEmpty(src))
+            {
+                return src;
+            }
+            if (String.IsNullOrEmpty(pattern))
+            {
+                return src;
+            }
+            var matching = 0;
+            var index = 0;
+            while (index < src.Length && matching < pattern.Length)
+            {
+                var c = src[index];
+                if (c == pattern[matching])
+                {
+                    if (matching < pattern.Length)
+                    {
+                        matching++;
+                    }
+                }
+                else
+                {
+                    matching = 0;
+                }
+                index++;
+            }
+            index -= matching;
+            left = index + 1 < src.Length ? src.Substring(index + (includePattern ? 0 : pattern.Length)) : String.Empty;
+            return index > src.Length - 1 ? src : index < 1 ? String.Empty : src.Substring(0, index);
+        }
+
     }
 }

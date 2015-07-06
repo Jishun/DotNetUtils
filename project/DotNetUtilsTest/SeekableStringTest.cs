@@ -1,5 +1,5 @@
 ﻿using System;
-using DotNetUtils.UtilClasses;
+using DotNetUtils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DotNetUtilsTest

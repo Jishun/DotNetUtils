@@ -36,6 +36,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Web" />
@@ -65,15 +66,25 @@
     <Compile Include="UtilClasses\EmbededXmlResolver.cs" />
     <Compile Include="UtilClasses\SeekableString.cs" />
     <Compile Include="UtilClasses\Pair.cs" />
+    <Compile Include="Utils\DateTime\DateTimeUtils.cs" />
+    <Compile Include="Utils\EncriptAndCompress\AES.cs" />
+    <Compile Include="Utils\EncriptAndCompress\Base32.cs" />
+    <Compile Include="Utils\EncriptAndCompress\Base64.cs" />
+    <Compile Include="Utils\ConfigurationHelper.cs" />
     <Compile Include="Utils\Constants.cs" />
-    <Compile Include="Utils\LzfCompression.cs" />
-    <Compile Include="Utils\LzfHelper.cs" />
+    <Compile Include="Utils\EncriptAndCompress\Password.cs" />
+    <Compile Include="Utils\FileUtils.cs" />
+    <Compile Include="Utils\Numbers\HugeInteger.cs" />
+    <Compile Include="Utils\EncriptAndCompress\LzfCompression.cs" />
+    <Compile Include="Utils\EncriptAndCompress\LzfHelper.cs" />
+    <Compile Include="Utils\Numbers\NumberToEnglishText.cs" />
+    <Compile Include="Utils\Numbers\NumberUtils.cs" />
     <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="UtilClasses\Triple.cs" />
+    <Compile Include="Utils\UriHelper.cs" />
+    <Compile Include="Utils\Numbers\USStateFaxNumber.cs" />
+    <Compile Include="Utils\Numbers\USZipCode.cs" />
     <Compile Include="Utils\Util.cs" />
-    <Compile Include="Utils\Util.designer.cs">
-      <DependentUpon>Util.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

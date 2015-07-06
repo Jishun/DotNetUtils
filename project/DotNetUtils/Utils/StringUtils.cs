@@ -9,111 +9,82 @@ namespace DotNetUtils
 {
     public static class StringUtils
     {
-        public static IEnumerable<byte> GetUntil(this BinaryReader src, string pattern)
+        public static string GetCommaDelimitedString(params object[] items)
         {
-            if (src == null || String.IsNullOrEmpty(pattern))
+            if (items == null || items.Length < 1)
             {
-                yield break;
+                return string.Empty;
             }
-            var matching = 0;
-            while (src.BaseStream.Position < src.BaseStream.Length)
-            {
-                var c = src.ReadByte();
-                if (c == pattern[matching])
-                {
-                    if (matching < pattern.Length - 1)
-                    {
-                        matching++;
-                    }
-                    else
-                    {
-                        yield break;
-                    }
-                }
-                else
-                {
-                    for (var i = 0; i < matching; i++)
-                    {
-                        yield return (byte)pattern[i];
-                    }
-                    matching = 0;
-                    yield return (byte)c;
-                }
-            }
+
+            return string.Join(",", items);
+        }
+        /// <summary>
+        /// Convert a list of string to one string
+        /// </summary>
+        /// <param name="list">The list to be converted</param>
+        /// <returns>A string converted from the list</returns>
+        public static string ConvertListToString(IEnumerable<string> list)
+        {
+            return string.Join(",", list);
         }
 
-        public static string GetUntil(this StreamReader src, string pattern)
+        public static string GenerateRandomString(int length)
         {
-            if (src == null || String.IsNullOrEmpty(pattern))
+            var randomString = new StringBuilder();
+            var random = new Random();
+            for (var i = 0; i < length; i++)
             {
-                return null;
+                randomString.Append(Constants.LowerCharArray[(int)(Constants.LowerCharArray.Length * random.NextDouble())]);
             }
-            var sb = new StringBuilder();
-            int c;
-            var matching = 0;
-            while ((c = src.Read()) != -1)
-            {
-                sb.Append((char)c);
-                if (c == pattern[matching])
-                {
-                    if (matching < pattern.Length - 1)
-                    {
-                        matching++;
-                    }
-                    else
-                    {
-                        var ret = sb.ToString();
-                        if (ret.Length == pattern.Length)
-                        {
-                            return String.Empty;
-                        }
-                        return ret.Substring(0, ret.Length - pattern.Length);
-                    }
-                }
-                else
-                {
-                    matching = 0;
-                }
-            }
-            return sb.ToString();
+            return randomString.ToString();
+        }
+        /// <summary>
+        /// Construct a currency format string
+        /// </summary>
+        /// <param name="symbol">The currency symbol</param>
+        /// <returns>A currrency format string</returns>
+        public static string GetCurrencyFormatSpecifier(string symbol)
+        {
+            return GetCurrencyFormatString(Constants.CurrencyFormatSpecifierPattern, symbol);
         }
 
         /// <summary>
-        /// Get the sub string before the pattern's position
+        /// Construct a currency format string with currency symbol and decimal part
         /// </summary>
-        /// <returns></returns>
-        public static string GetUntil(this string src, string pattern, out string left, bool includePattern = false)
+        /// <param name="symbol">The currency symbol</param>
+        /// <returns>A currrency format string</returns>
+        public static string GetCurrencyFormatWithDecimalSpecifier(string symbol)
         {
-            left = src;
-            if (String.IsNullOrEmpty(src))
+            return GetCurrencyFormatString(Constants.CurrencyFormatWithDecimalSpecifierPattern, symbol);
+        }
+
+        /// <summary>
+        /// Construct a currency format string with currency symbol and decimal part up to 4 digits
+        /// </summary>
+        /// <param name="symbol">The currency symbol</param>
+        /// <returns>A currrency format string</returns>
+        public static string GetCurrencyFormatWith4DigitsDecimalSpecifier(string symbol)
+        {
+            return GetCurrencyFormatString(Constants.CurrencyFormatWith4DigitsDecimalSpecifierPattern, symbol);
+        }
+
+        /// <summary>
+        /// Construct a currency format string
+        /// </summary>
+        /// <param name="pattern">The pattern string</param>
+        /// <param name="symbol">The currency symbol</param>
+        /// <returns>A currrency format string</returns>
+        private static string GetCurrencyFormatString(string pattern, string symbol)
+        {
+            if (pattern.IsNullOrWhiteSpace())
             {
-                return src;
+                throw new ArgumentNullException("pattern");
             }
-            if (String.IsNullOrEmpty(pattern))
+            if (symbol.IsNullOrWhiteSpace())
             {
-                return src;
+                throw new ArgumentNullException("symbol");
             }
-            var matching = 0;
-            var index = 0;
-            while (index < src.Length && matching < pattern.Length)
-            {
-                var c = src[index];
-                if (c == pattern[matching])
-                {
-                    if (matching < pattern.Length)
-                    {
-                        matching++;
-                    }
-                }
-                else
-                {
-                    matching = 0;
-                }
-                index++;
-            }
-            index -= matching;
-            left = index + 1 < src.Length ? src.Substring(index + (includePattern ? 0 : pattern.Length)) : String.Empty;
-            return index > src.Length - 1 ? src : index < 1 ? String.Empty : src.Substring(0, index);
+            return pattern.FormatInvariantCulture(symbol);
         }
 
     }
