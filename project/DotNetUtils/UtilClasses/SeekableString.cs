@@ -1,22 +1,36 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
 namespace DotNetUtils
 {
+    [Flags]
+    public enum LineBreakOption
+    {
+        Nonspecified = 0,
+        CrLfToLf = 1,
+        CrLfToCr = 2,
+        LfToCrLf = 4,
+        LfToCr = 8,
+        CrToCrLf = 16,
+        CrToLf = 32,
+    }
     public class SeekableString : ISeekable
     {
         private readonly string _src;
+        private readonly LineBreakOption _lineBreakOption;
 
         [DebuggerStepThrough]
-        public SeekableString(string src)
+        public SeekableString(string src, LineBreakOption lineBreakOption = LineBreakOption.Nonspecified)
         {
             if (src == null)
             {
                 throw new ArgumentNullException("src");
             }
             _src = src;
+            _lineBreakOption = lineBreakOption;
         }
         public string Source
         {
@@ -151,7 +165,7 @@ namespace DotNetUtils
                 }
                 if (!escaping)
                 {
-                    sb.Append(_src[Position++]);
+                    AppendCharWithTranslatingLineBreak(sb);
                 }
             }
             matched = null;
@@ -161,6 +175,49 @@ namespace DotNetUtils
         public string ReadTo(int index)
         {
             return _src.Substring(Position, index - Position);
+        }
+
+        private void AppendCharWithTranslatingLineBreak(StringBuilder sb)
+        {
+            var c = _src[Position++];
+            var nextC = PeekChar();
+            var str = nextC == -1 ? c.ToString() : (c.ToString() + (char) nextC);
+            switch (str)
+            {
+                case "\r\n":
+                    if (_lineBreakOption.HasFlag(LineBreakOption.CrLfToCr))
+                    {
+                        str = "\n";
+                    }
+                    else if (_lineBreakOption.HasFlag(LineBreakOption.CrLfToLf))
+                    {
+                        str = "\r";
+                    }
+                    Position++;
+                    break;
+                case "\n":
+                    if (_lineBreakOption.HasFlag(LineBreakOption.LfToCr))
+                    {
+                        str = "\r";
+                    }
+                    else if (_lineBreakOption.HasFlag(LineBreakOption.LfToCrLf))
+                    {
+                        str = "\r\n";
+                    }
+                    break;
+                case "\r":
+                    if (_lineBreakOption.HasFlag(LineBreakOption.CrToCrLf))
+                    {
+                        str = "\r\n";
+
+                    }
+                    else if (_lineBreakOption.HasFlag(LineBreakOption.CrToLf))
+                    {
+                        str = "\n";
+                    }
+                    break;
+            }
+            sb.Append(str);
         }
     }
 }
