@@ -11,7 +11,10 @@
     <iconUrl>https://github.com/djsxp/DotNetUtils</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Useful Utilities and Extensions for daily .Net programming </description>
-    <releaseNotes>support LineBreakOption in SeekableString</releaseNotes>
+    <releaseNotes>
+        Support LineBreakOption in SeekableString
+        Fix bug in SeekableString's ReadChar and PeekChar method
+    </releaseNotes>
     <copyright>Copyright Jishun Duan, 2011-2015</copyright>
     <tags>C#,.Net,Extesion,Utilities</tags>
   </metadata>

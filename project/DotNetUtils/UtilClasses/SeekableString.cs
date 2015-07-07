@@ -74,18 +74,18 @@ namespace DotNetUtils
 
         public int PeekChar()
         {
-            if (Position < _src.Length - 1)
+            if (Position < _src.Length)
             {
-                return _src[Position + 1];
+                return _src[Position];
             }
             return -1;
         }
 
         public int ReadChar()
         {
-            if (Position < _src.Length - 1)
+            if (Position < _src.Length)
             {
-                return _src[++Position];
+                return _src[Position++];
             }
             return -1;
         }
@@ -177,21 +177,26 @@ namespace DotNetUtils
             return _src.Substring(Position, index - Position);
         }
 
+        public override string ToString()
+        {
+            return _src;
+        }
+
         private void AppendCharWithTranslatingLineBreak(StringBuilder sb)
         {
             var c = _src[Position++];
             var nextC = PeekChar();
-            var str = nextC == -1 ? c.ToString() : (c.ToString() + (char) nextC);
+            var str = nextC == -1 || (nextC != '\r' && nextC != '\n') ? c.ToString() : (c.ToString() + (char) nextC);
             switch (str)
             {
                 case "\r\n":
                     if (_lineBreakOption.HasFlag(LineBreakOption.CrLfToCr))
                     {
-                        str = "\n";
+                        str = "\r";
                     }
                     else if (_lineBreakOption.HasFlag(LineBreakOption.CrLfToLf))
                     {
-                        str = "\r";
+                        str = "\n";
                     }
                     Position++;
                     break;
@@ -215,6 +220,9 @@ namespace DotNetUtils
                     {
                         str = "\n";
                     }
+                    break;
+                default:
+                    str = c.ToString();
                     break;
             }
             sb.Append(str);
