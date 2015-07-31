@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\RegularExpressions.cs" />
     <Compile Include="Extensions\DataTypeExtensions.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
@@ -71,7 +72,7 @@
     <Compile Include="Utils\EncriptAndCompress\Base32.cs" />
     <Compile Include="Utils\EncriptAndCompress\Base64.cs" />
     <Compile Include="Utils\ConfigurationHelper.cs" />
-    <Compile Include="Utils\Constants.cs" />
+    <Compile Include="Constants\Constants.cs" />
     <Compile Include="Utils\EncriptAndCompress\Password.cs" />
     <Compile Include="Utils\FileUtils.cs" />
     <Compile Include="Utils\Numbers\HugeInteger.cs" />

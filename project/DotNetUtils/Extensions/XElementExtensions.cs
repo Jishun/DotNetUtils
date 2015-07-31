@@ -728,5 +728,93 @@ namespace DotNetUtils
                 return (T)xmlSerializer.Deserialize(memoryStream);
             }
         }
+
+        public static void RemoveWithNextWhitespace(this XElement element)
+        {
+            IEnumerable<XText> textNodes
+                = element.NodesAfterSelf()
+                         .TakeWhile(node => node is XText).Cast<XText>();
+            if (element.ElementsAfterSelf().Any())
+            {
+                // Easy case, remove following text nodes.
+                textNodes.ToList().ForEach(node => node.Remove());
+            }
+            else
+            {
+                // Remove trailing whitespace.
+                textNodes.TakeWhile(text => !text.Value.Contains("\n"))
+                         .ToList().ForEach(text => text.Remove());
+                // Fetch text node containing newline, if any.
+                XText newLineTextNode
+                    = element.NodesAfterSelf().OfType<XText>().FirstOrDefault();
+                if (newLineTextNode != null)
+                {
+                    string value = newLineTextNode.Value;
+                    if (value.Length > 1)
+                    {
+                        // Composite text node, trim until newline (inclusive).
+                        newLineTextNode.AddAfterSelf(
+                            new XText(value.Substring(value.IndexOf('\n') + 1)));
+                    }
+                    // Remove original node.
+                    newLineTextNode.Remove();
+                }
+            }
+            element.Remove();
+        }
+
+        public static void MoveFirst(this XElement element)
+        {
+            var p = element.Parent;
+            element.Remove();
+            p.AddFirst(element);
+        }
+
+        public static void MoveLast(this XElement element)
+        {
+            var p = element.Parent;
+            element.Remove();
+            p.Add(element);
+        }
+
+        /// <summary>
+        /// insert the 'toAdd' element before this element, with option to skip count
+        /// </summary>
+        /// <param name="element"></param>
+        /// <param name="toAdd"></param>
+        /// <param name="skip"></param>
+        public static void InsertElementBefore(this XElement element, XElement toAdd, int skip = 0)
+        {
+            XNode node = element;
+            while (element.PreviousNode != null && skip > 0)
+            {
+                node = element.PreviousNode;
+                if (node is XElement)
+                {
+                    skip--;
+                }
+            }
+            ((XElement)node).AddBeforeSelf(toAdd);
+        }
+
+        /// <summary>
+        /// insert the 'toAdd' element after this element, with option to skip count
+        /// </summary>
+        /// <param name="element"></param>
+        /// <param name="toAdd"></param>
+        /// <param name="skip"></param>
+        public static void InsertElementAfter(this XElement element, XElement toAdd, int skip = 0)
+        {
+            XNode node = element;
+            while (element.NextNode != null && skip > 0)
+            {
+                node = element.NextNode;
+                if (node is XElement)
+                {
+                    skip--;
+                }
+            }
+            ((XElement)node).AddAfterSelf(toAdd);
+        }
     }
 }

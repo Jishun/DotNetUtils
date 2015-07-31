@@ -162,6 +162,12 @@ namespace DotNetUtils
             return ret;
         }
 
+        [DebuggerStepThrough]
+        public static IDictionary<TKey, TValue> Copy<TKey, TValue>(this IDictionary<TKey, TValue> dict)
+        {
+            return dict == null ? null : dict.ToDictionary(k => k.Key, k => k.Value);
+        }
+
         /// <summary>
         /// Gets the value for the given key, or a default value if the key is not found.
         /// </summary>

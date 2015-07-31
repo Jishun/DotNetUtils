@@ -837,6 +837,16 @@ namespace DotNetUtils
             return defaultVal;
         }
 
+        public static string SafeToString(this object val, string defaultVal = null)
+        {
+            var val1 = val as decimal?;
+            if(val1 != null)
+            {
+                return val1.Value.ToStringTrim();
+            }
+            return val == null ? defaultVal ?? String.Empty : Convert.ToString(val);
+        }
+
         /// <summary>
         /// Indicate if given path ends with any of specific file extensions or not
         /// </summary>

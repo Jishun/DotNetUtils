@@ -91,12 +91,12 @@ namespace DotNetUtils
         }
         public ISeekable Substring(int startIndex, int length)
         {
-            return new SeekableString(_src.Substring(startIndex, length));
+            return new SeekableString(_src.Substring(startIndex, length), _lineBreakOption);
         }
 
         public ISeekable Substring(int startIndex)
         {
-            return new SeekableString(_src.Substring(startIndex, _src.Length - startIndex));
+            return new SeekableString(_src.Substring(startIndex, _src.Length - startIndex), _lineBreakOption);
         }
 
         public string ReadTo(string match, bool trimPattern = true)
