@@ -47,6 +47,9 @@ namespace DotNetUtils
         }
 
         public int Position { get; set; }
+        public int Line { get; private set; }
+
+        public int Column { get; private set; }
 
         public bool Eof
         {
@@ -149,6 +152,7 @@ namespace DotNetUtils
                         Position += terminitor.Length;
                         if (escaping || !trimPattern)
                         {
+                            Column += terminitor.Length;
                             sb.Append(terminitor);
                             escaped = true;
                         }
@@ -161,6 +165,7 @@ namespace DotNetUtils
                 }
                 if (escaping && !escaped)
                 {
+                    Column += escape.Length;
                     sb.Append(escape);
                 }
                 if (!escaping)
@@ -170,11 +175,6 @@ namespace DotNetUtils
             }
             matched = null;
             return sb.ToString();
-        }
-
-        public string ReadTo(int index)
-        {
-            return _src.Substring(Position, index - Position);
         }
 
         public override string ToString()
@@ -187,6 +187,7 @@ namespace DotNetUtils
             var c = _src[Position++];
             var nextC = PeekChar();
             var str = nextC == -1 || (nextC != '\r' && nextC != '\n') ? c.ToString() : (c.ToString() + (char) nextC);
+            Line++;
             switch (str)
             {
                 case "\r\n":
@@ -199,6 +200,7 @@ namespace DotNetUtils
                         str = "\n";
                     }
                     Position++;
+                    Column++;
                     break;
                 case "\n":
                     if (_lineBreakOption.HasFlag(LineBreakOption.LfToCr))
@@ -222,6 +224,8 @@ namespace DotNetUtils
                     }
                     break;
                 default:
+                    Line--;
+                    Column++;
                     str = c.ToString();
                     break;
             }

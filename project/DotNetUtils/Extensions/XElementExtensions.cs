@@ -693,12 +693,8 @@ namespace DotNetUtils
         /// <typeparam name="T">The type to be serialized</typeparam>
         /// <param name="obj">The object to be serialized</param>
         /// <returns>An XElement instance represent object</returns>
-        public static XElement ToXElement<T>(this object obj)
+        public static XElement ToXElement<T>(this T obj)
         {
-            if (obj == null)
-            {
-                throw new ArgumentNullException("obj");
-            }
             using (var memoryStream = new MemoryStream())
             {
                 using (TextWriter streamWriter = new StreamWriter(memoryStream))
