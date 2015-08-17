@@ -6,16 +6,12 @@ using System.Threading.Tasks;
 
 namespace DotNetUtils
 {
-    public class Triple<TFirst, TSecond, TThird>
+    public class Triple<TFirst, TSecond, TThird> : Pair<TFirst, TSecond>
     {
-        public TFirst First;
-        public TSecond Second;
         public TThird Third;
 
-        public Triple(TFirst first, TSecond second, TThird third)
+        public Triple(TFirst first, TSecond second, TThird third) : base(first, second)
         {
-            First = first;
-            Second = second;
             Third = third;
         }
     }

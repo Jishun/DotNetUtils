@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>DotNetUtils</id>
-    <version>1.0.0.1</version>
+    <version>1.0.0.4</version>
     <title>.Net Utils</title>
     <authors>Jishun Duan</authors>
     <owners>Jishun Duan</owners>
@@ -12,8 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Useful Utilities and Extensions for daily .Net programming </description>
     <releaseNotes>
-        Support LineBreakOption in SeekableString
-        Fix bug in SeekableString's ReadChar and PeekChar method
+        let Triple inherit from Pair, include pdbs in package
     </releaseNotes>
     <copyright>Copyright Jishun Duan, 2011-2015</copyright>
     <tags>C#,.Net,Extesion,Utilities</tags>
