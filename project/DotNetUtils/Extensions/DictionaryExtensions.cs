@@ -220,6 +220,16 @@ namespace DotNetUtils
             return dict ?? new Dictionary<TKey, T>();
         }
 
+        [DebuggerStepThrough]
+        public static TValue SafeGetValue<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
+        {
+            if (dictionary.IsNullOrEmpty())
+            {
+                return defaultValue;
+            }
+            TValue value;
+            return dictionary.TryGetValue(key, out value) ? value : defaultValue;
+        }
 
         /// <summary>
         /// ad dictionary with a new one, with skiping the existing items.s

@@ -92,5 +92,48 @@ namespace DotNetUtilsTest
             Assert.AreEqual((int)'2', str.PeekChar());
             Assert.AreEqual((int)'2', str.ReadChar());
         }
+
+        [TestMethod]
+        public void LineNumber()
+        {
+            var str = new SeekableString("123456789");
+            str.ReadTo("3");
+            Assert.AreEqual(0, str.Line);
+            Assert.AreEqual(3, str.Column);
+            Assert.AreEqual(3, str.Position);
+
+            str = new SeekableString("1234\\06789\r\n01");
+            str.ReadTo("6");
+            str.ReadTo("0");
+            Assert.AreEqual(1, str.Line);
+            Assert.AreEqual(1, str.Column);
+            Assert.AreEqual(0, str.PreviousLine);
+            Assert.AreEqual(7, str.PreviousColumn);
+            Assert.AreEqual(13, str.Position);
+
+            str = new SeekableString("123\n456789");
+            str.ReadTo("6");
+            Assert.AreEqual(1, str.Line);
+            Assert.AreEqual(3, str.Column);
+            Assert.AreEqual(7, str.Position);
+
+            str = new SeekableString("123\n4567\r89");
+            str.ReadTo("8");
+            Assert.AreEqual(2, str.Line);
+            Assert.AreEqual(1, str.Column);
+
+            str = new SeekableString("123\n4567\r89");
+            str.ReadTo("56");
+            Assert.AreEqual(1, str.Line);
+            Assert.AreEqual(3, str.Column);
+            Assert.AreEqual(7, str.Position);
+
+            str = new SeekableString("123\\56567\r89");
+            var ret = str.ReadTo(true, "\\","56");
+            Assert.AreEqual("12356", ret);
+            Assert.AreEqual(0, str.Line);
+            Assert.AreEqual(8, str.Column);
+            Assert.AreEqual(8, str.Position);
+        }
     }
 }

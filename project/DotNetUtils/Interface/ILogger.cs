@@ -10,6 +10,7 @@
         void LogWarning(string pattern, params object[] args);
         void Trace(string pattern, params object[] args);
 
+        bool Clear();
         bool IsEmpty();
         bool IsNullOrEmpty();
     }

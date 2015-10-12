@@ -291,6 +291,64 @@ namespace DotNetUtils
         }
 
         /// <summary>
+        /// Get the FirstOrdefault item's specific property if the item exists, otherwise return default
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TP"></typeparam>
+        /// <param name="collection"></param>
+        /// <param name="predicate"></param>
+        /// <param name="propertySelector"></param>
+        /// <returns></returns>
+        public static TP PropertyOfFirstOrDefault<T, TP>(this IEnumerable<T> collection, Func<T, bool> predicate, Func<T, TP> propertySelector)
+        {
+            if (collection == null)
+            {
+                return default(TP);
+            }
+            var item = collection.FirstOrDefault(predicate);
+            return item == null ? default(TP) : propertySelector(item);
+        }
+
+        /// <summary>
+        /// Get the SingleOrdefault item's specific property if the item exists, otherwise return default
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TP"></typeparam>
+        /// <param name="collection"></param>
+        /// <param name="predicate"></param>
+        /// <param name="propertySelector"></param>
+        /// <returns></returns>
+        public static TP PropertyOfSingleOrDefault<T, TP>(this IEnumerable<T> collection, Func<T, bool> predicate, Func<T, TP> propertySelector)
+        {
+            if (collection == null)
+            {
+                return default(TP);
+            }
+            var item = collection.SingleOrDefault(predicate);
+            return item == null ? default(TP) : propertySelector(item);
+        }
+
+        /// <summary>
+        /// Get the LastOrdefault item's specific property if the item exists, otherwise return default
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TP"></typeparam>
+        /// <param name="collection"></param>
+        /// <param name="predicate"></param>
+        /// <param name="propertySelector"></param>
+        /// <returns></returns>
+        public static TP PropertyOfLastOrDefault<T, TP>(this IEnumerable<T> collection, Func<T, bool> predicate, Func<T, TP> propertySelector)
+        {
+            if (collection == null)
+            {
+                return default(TP);
+            }
+            var item = collection.LastOrDefault(predicate);
+            return item == null ? default(TP) : propertySelector(item);
+        }
+
+
+        /// <summary>
         /// Gets current collection with null check. 
         /// If the collection is null, this will return an empty collection
         /// </summary>
@@ -341,14 +399,18 @@ namespace DotNetUtils
             return collection.IsNullOrEmpty() ? (decimal?)null : collection.Sum(selector);
         }
 
-        public static TValue SafeGetValue<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
+        /// <summary>
+        /// distinct a collection by specific field
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="keySelector"></param>
+        /// <returns></returns>
+        public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
         {
-            if (dictionary.IsNullOrEmpty())
-            {
-                return defaultValue;
-            }
-            TValue value;
-            return dictionary.TryGetValue(key, out value) ? value : defaultValue;
+            var seenKeys = new HashSet<TKey>();
+            return source.Where(element => seenKeys.Add(keySelector(element)));
         }
 
         private sealed class ForEachParallelHelper : IDisposable

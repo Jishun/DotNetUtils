@@ -14,5 +14,10 @@ namespace DotNetUtils
         {
             Third = third;
         }
+
+        public Triple()
+        {
+            
+        }
     }
 }

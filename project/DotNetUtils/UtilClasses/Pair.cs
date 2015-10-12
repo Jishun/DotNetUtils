@@ -16,5 +16,10 @@ namespace DotNetUtils
             First = first;
             Second = second;
         }
+
+        public Pair()
+        {
+            
+        }
     }
 }

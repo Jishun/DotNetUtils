@@ -17,10 +17,15 @@ namespace DotNetUtils
         CrToCrLf = 16,
         CrToLf = 32,
     }
+
     public class SeekableString : ISeekable
     {
         private readonly string _src;
         private readonly LineBreakOption _lineBreakOption;
+        private int _position;
+        private int _line;
+        private int _column;
+        private bool _lineColumnNumberAccurate;
 
         [DebuggerStepThrough]
         public SeekableString(string src, LineBreakOption lineBreakOption = LineBreakOption.Nonspecified)
@@ -42,14 +47,49 @@ namespace DotNetUtils
             [DebuggerStepThrough]
             get
             {
-                return Eof? _src.Substring(Position, Length - Position) : String.Empty;
+                return Eof? String.Empty : _src.Substring(Position, Length - Position);
             }
         }
 
-        public int Position { get; set; }
-        public int Line { get; private set; }
+        public int Position
+        {
+            get { return _position; }
+            set
+            {
+                _position = value;
+                _lineColumnNumberAccurate = false;
+            }
+        }
 
-        public int Column { get; private set; }
+        public int Line
+        {
+            get
+            {
+                if (!_lineColumnNumberAccurate)
+                {
+                    CalculateLineColumnNumbers();
+                } 
+                return _line;
+            }
+            private set { _line = value; }
+        }
+
+        public int Column
+        {
+            get
+            {
+                if (!_lineColumnNumberAccurate)
+                {
+                    CalculateLineColumnNumbers();
+                }
+                return _column;
+            }
+            private set { _column = value; }
+        }
+
+        public int PreviousPosition { get; private set; }
+        public int PreviousLine { get; private set; }
+        public int PreviousColumn { get; private set; }
 
         public bool Eof
         {
@@ -62,6 +102,7 @@ namespace DotNetUtils
             get { return _src.Length; }
         }
 
+
         public bool StartsWith(string match)
         {
             return _src.StartsWith(match);
@@ -71,7 +112,12 @@ namespace DotNetUtils
         {
             if (Position > 0)
             {
-                Position--;
+                _position--;
+                Column--;
+                if (Column < 0)
+                {
+                    _lineColumnNumberAccurate = false;
+                }
             }
         }
 
@@ -86,9 +132,19 @@ namespace DotNetUtils
 
         public int ReadChar()
         {
+            PreviousPosition = Position;
+            PreviousColumn = Column;
+            PreviousLine = Line;
             if (Position < _src.Length)
             {
-                return _src[Position++];
+                var ret = _src[_position++];
+                Column++;
+                if (ret == '\n' || (ret == '\r' && PeekChar() == -1))
+                {
+                    Line++;
+                    Column = 0;
+                }
+                return ret;
             }
             return -1;
         }
@@ -115,10 +171,6 @@ namespace DotNetUtils
 
         public string ReadTo(bool trimPattern, out string matched, string escape, params string[] terminitors)
         {
-            if (escape == String.Empty)
-            {
-                throw new ArgumentNullException("escape");
-            }
             if (terminitors.Length == 0)
             {
                 throw new ArgumentNullException("terminitors");
@@ -127,6 +179,13 @@ namespace DotNetUtils
             {
                 throw new ArgumentException("Escape cannot be the same with terminitor");
             }
+            if (escape == String.Empty)
+            {
+                escape = null;
+            }
+            PreviousPosition = Position;
+            PreviousColumn = Column;
+            PreviousLine = Line;
             var sb = new StringBuilder();
             var length = terminitors.Max(t => t.Length);
             if (escape != null)
@@ -140,7 +199,8 @@ namespace DotNetUtils
                 var escaping = false;
                 if (escape != null && str.StartsWith(escape))
                 {
-                    Position += escape.Length;
+                    _position += escape.Length;
+                    Column += escape.Length;
                     str = _src.Substring(Position, length);
                     escaping = true;
                 }
@@ -149,10 +209,10 @@ namespace DotNetUtils
                 {
                     if (str.StartsWith(terminitor))
                     {
-                        Position += terminitor.Length;
+                        _position += terminitor.Length;
+                        Column += terminitor.Length;
                         if (escaping || !trimPattern)
                         {
-                            Column += terminitor.Length;
                             sb.Append(terminitor);
                             escaped = true;
                         }
@@ -177,17 +237,35 @@ namespace DotNetUtils
             return sb.ToString();
         }
 
-        public override string ToString()
+        private void CalculateLineColumnNumbers()
         {
-            return _src;
+            for (var i = 0; i < _position; i++)
+            {
+                var c = _src[i];
+                var nextC = i < _src.Length - 1 ? _src[i + 1] : -1;
+                var str = nextC == -1 || (nextC != '\r' && nextC != '\n') ? c.ToString() : (c.ToString() + (char)nextC);
+                switch (str)
+                {
+                    case "\r\n":
+                    case "\n":
+                    case "\r":
+                        i++;
+                        _line++;
+                        _column = 0;
+                        break;
+                    default:
+                        _column++;
+                        break;
+                }
+            }
+            _lineColumnNumberAccurate = true;
         }
 
         private void AppendCharWithTranslatingLineBreak(StringBuilder sb)
         {
-            var c = _src[Position++];
+            var c = _src[_position++];
             var nextC = PeekChar();
             var str = nextC == -1 || (nextC != '\r' && nextC != '\n') ? c.ToString() : (c.ToString() + (char) nextC);
-            Line++;
             switch (str)
             {
                 case "\r\n":
@@ -199,8 +277,9 @@ namespace DotNetUtils
                     {
                         str = "\n";
                     }
-                    Position++;
-                    Column++;
+                    _position++;
+                    Line++;
+                    Column=0;
                     break;
                 case "\n":
                     if (_lineBreakOption.HasFlag(LineBreakOption.LfToCr))
@@ -211,6 +290,8 @@ namespace DotNetUtils
                     {
                         str = "\r\n";
                     }
+                    Line++;
+                    Column=0;
                     break;
                 case "\r":
                     if (_lineBreakOption.HasFlag(LineBreakOption.CrToCrLf))
@@ -222,14 +303,21 @@ namespace DotNetUtils
                     {
                         str = "\n";
                     }
+                    
+                    Line++;
+                    Column=0;
                     break;
                 default:
-                    Line--;
                     Column++;
                     str = c.ToString();
                     break;
             }
             sb.Append(str);
+        }
+
+        public override string ToString()
+        {
+            return _src;
         }
     }
 }

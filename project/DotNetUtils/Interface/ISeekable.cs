@@ -6,8 +6,12 @@
         int Position { get; set; }
         int Line { get; }
         int Column { get; }
+        int PreviousPosition { get; }
+        int PreviousLine { get; }
+        int PreviousColumn { get; }
         bool Eof { get; }
         int Length { get; }
+        string Left { get; }
 
         ISeekable Substring(int startIndex, int length);
         ISeekable Substring(int startIndex);
