@@ -707,7 +707,7 @@ namespace DotNetUtils
         }
 
         /// <summary>
-        /// 
+        /// Deserialize xml the xml using XmlSerializer
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="xElement"></param>
@@ -722,6 +722,18 @@ namespace DotNetUtils
             {
                 var xmlSerializer = new XmlSerializer(typeof(T));
                 return (T)xmlSerializer.Deserialize(memoryStream);
+            }
+        }
+
+        /// <summary>
+        /// Remove namespaces in the exlement and its descendants
+        /// </summary>
+        public static void RemoveXnameSpaces(this XElement element)
+        {
+            foreach (var x in element.DescendantsAndSelf())
+            {
+                x.Name = x.Name.LocalName;
+                x.ReplaceAttributes((from xattrib in x.Attributes().Where(xa => !xa.IsNamespaceDeclaration) select new XAttribute(xattrib.Name.LocalName, xattrib.Value)));
             }
         }
 
