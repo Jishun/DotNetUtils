@@ -38,7 +38,7 @@ namespace DotNetUtils
         /// <param name="dictionary">the dictionary</param>
         /// <param name="key">key</param>
         /// <param name="value">value</param>
-        /// <returns>true if added, false if skiped</returns>
+        /// <returns>true if added, false if skipped</returns>
         [DebuggerStepThrough]
         public static bool AddOrSkip<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
         {
@@ -98,13 +98,13 @@ namespace DotNetUtils
         /// <param name="dictionary">the dictionary</param>
         /// <param name="key">key</param>
         /// <param name="value">value</param>
-        /// <returns>true if added, false if Overwrited</returns>
+        /// <returns>true if added, false if Overwritten</returns>
         [DebuggerStepThrough]
         public static bool AddOrOverwrite<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
         {
             if (dictionary == null)
             {
-                throw new ArgumentNullException("dictionary");
+                throw new ArgumentNullException(nameof(dictionary));
             }
             if (!dictionary.ContainsKey(key))
             {
@@ -120,7 +120,7 @@ namespace DotNetUtils
         {
             if (hash == null)
             {
-                throw new ArgumentNullException("hash");
+                throw new ArgumentNullException(nameof(hash));
             }
             if (!hash.Contains(key))
             {
@@ -232,7 +232,7 @@ namespace DotNetUtils
         }
 
         /// <summary>
-        /// ad dictionary with a new one, with skiping the existing items.s
+        /// ad dictionary with a new one, with skipping the existing items.s
         /// </summary>
         /// <typeparam name="TKey"></typeparam>
         /// <typeparam name="T"></typeparam>

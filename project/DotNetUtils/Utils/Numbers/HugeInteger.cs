@@ -10,7 +10,7 @@ namespace DotNetUtils
     {
         private readonly IList<byte> bits;
 
-        public int Length { get { return bits.Count; } }
+        public int Length => bits.Count;
 
         public HugeInteger()
         {
@@ -58,7 +58,7 @@ namespace DotNetUtils
 
         public static HugeInteger Parse(long raw)
         {
-            HugeInteger ret = new HugeInteger();
+            var ret = new HugeInteger();
             while (raw != 0)
             {
                 ret.bits.Add((byte)(raw % 10));
@@ -72,7 +72,7 @@ namespace DotNetUtils
             HugeInteger ret = new HugeInteger();
             if (!raw.IsPureNumber())
             {
-                throw new ArgumentOutOfRangeException("raw");
+                throw new ArgumentOutOfRangeException(nameof(raw));
             }
             for (int i = raw.Length - 1; i >= 0; i--)
             {

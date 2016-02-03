@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>DotNetUtils</id>
-    <version>1.0.0.9</version>
+    <version>1.0.1.0</version>
     <title>.Net Utils</title>
     <authors>Jishun Duan</authors>
     <owners>Jishun Duan</owners>
@@ -12,10 +12,10 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Useful Utilities and Extensions for daily .Net programming </description>
     <releaseNotes>
-        Fix SeekableString.Left miss implemented
-        Add Clear() method for ILogger
+        Add Chunk method for IEnumerable to chunk a list into multiple
+        fix typos
     </releaseNotes>
     <copyright>Copyright Jishun Duan, 2011-2015</copyright>
-    <tags>C#,.Net,Extesion,Utilities</tags>
+    <tags>C#,.Net,Extension,Utilities</tags>
   </metadata>
 </package>

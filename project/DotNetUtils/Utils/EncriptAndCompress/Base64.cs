@@ -45,7 +45,7 @@ namespace DotNetUtils
         {
             if (!typeof(T).IsDefined(typeof(SerializableAttribute), true))
             {
-                throw new ArgumentException("Source type does not support Serializable attribute");
+                throw new ArgumentException("Source type does not support Serialize-able attribute");
             }
             if (target == null)
             {
@@ -60,20 +60,20 @@ namespace DotNetUtils
         }
 
         /// <summary>
-        /// Deserialize a Base64 encoded string to be an object instance
+        /// De-serialize a Base64 encoded string to be an object instance
         /// </summary>
         /// <typeparam name="T">The type of object</typeparam>
         /// <param name="encodedString">The base64 encoded string</param>
-        /// <returns>An object deserialized from a Base64 string</returns>
+        /// <returns>An object de-serialized from a Base64 string</returns>
         public static T DeserializeObjectFromBased64String<T>(string encodedString) where T : class
         {
             if (!typeof(T).IsDefined(typeof(SerializableAttribute), true))
             {
-                throw new ArgumentException("Source type does not support Serializable attribute");
+                throw new ArgumentException("Source type does not support Serialize-able attribute");
             }
             if (encodedString.IsNullOrWhiteSpace())
             {
-                throw new ArgumentNullException("encodedString");
+                throw new ArgumentNullException(nameof(encodedString));
             }
             using (MemoryStream ms = new MemoryStream(Convert.FromBase64String(encodedString)))
             {

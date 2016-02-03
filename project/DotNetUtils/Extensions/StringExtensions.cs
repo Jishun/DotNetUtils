@@ -634,8 +634,8 @@ namespace DotNetUtils
         /// Validate string.length
         /// </summary>
         /// <param name="src">the string</param>
-        /// <param name="minlenth">min lenth</param>
-        /// <param name="maxlenth">max lenth</param>
+        /// <param name="minLength">min length</param>
+        /// <param name="maxLength">max length</param>
         /// <param name="isDecimal">if or not need to decide src is or not a decimal</param>
         /// <returns>if src is not null and string length is in range  , then return true; otherwise return false</returns>
         public static bool IsLengthRange(this string src, int maxLength, int minLength = 0, bool isDecimal = false)
@@ -705,7 +705,7 @@ namespace DotNetUtils
         {
             if (src.IsNullOrWhiteSpace())
             {
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             }
             return Util.ParseEnumValue<T, string>(src);
         }
@@ -965,10 +965,10 @@ namespace DotNetUtils
         }
 
         /// <summary>
-        /// Join a list of string to a single string seperated by seperator
+        /// Join a list of string to a single string separated by separator
         /// </summary>
         /// <param name="collection">the list of string</param>
-        /// <param name="seperator">the seperator between each 2 items</param>
+        /// <param name="seperator">the separator between each 2 items</param>
         /// <returns>a single joined string</returns>
         public static string Join(this IEnumerable<string> collection, string seperator)
         {
@@ -988,7 +988,7 @@ namespace DotNetUtils
         /// </summary>
         /// <param name="original">The original string</param>
         /// <param name="targetLength">The target length</param>
-        /// <param name="appendChar">The charactor to be appended if original string length than the target length</param>
+        /// <param name="appendChar">The character to be appended if original string length than the target length</param>
         /// <param name="appendAfter">A value indicate append after or insert before</param>
         /// <param name="throwExceptionIfOverLength">A value to indicate if an exception will be thrown if original string length greater than target length</param>
         /// <returns>
@@ -999,7 +999,7 @@ namespace DotNetUtils
         {
             if (targetLength <= 0)
             {
-                throw new ArgumentOutOfRangeException("targetLength", "targetLength must be greater than 0");
+                throw new ArgumentOutOfRangeException(nameof(targetLength), "targetLength must be greater than 0");
             }
             if (original == null || original.Length == targetLength)
             {
@@ -1009,7 +1009,7 @@ namespace DotNetUtils
             {
                 if (throwExceptionIfOverLength)
                 {
-                    throw new ArgumentOutOfRangeException("targetLength", "The targetLength is less than original string's length");
+                    throw new ArgumentOutOfRangeException(nameof(targetLength), "The targetLength is less than original string's length");
                 }
                 else
                 {
@@ -1038,7 +1038,7 @@ namespace DotNetUtils
         /// </summary>
         /// <param name="original">The original string</param>
         /// <param name="targetLength">The target length</param>
-        /// <param name="appendChar">The charactor to be appended if original string length than the target length</param>
+        /// <param name="appendChar">The character to be appended if original string length than the target length</param>
         /// <param name="throwExceptionIfOverLength">A value to indicate if an exception will be thrown if original string length greater than target length</param>
         /// <returns>
         ///     A string with fixed length same as target length and right justified 
@@ -1088,16 +1088,16 @@ namespace DotNetUtils
         {
             if (content.IsNullOrWhiteSpace())
             {
-                throw new ArgumentNullException("content");
+                throw new ArgumentNullException(nameof(content));
             }
             if (ns == null)
             {
-                throw new ArgumentNullException("ns");
+                throw new ArgumentNullException(nameof(ns));
             }
             var element = XElement.Parse(content);
             if (element == null)
             {
-                throw new ArgumentException("content is not a valid xml element", "content");
+                throw new ArgumentException("content is not a valid xml element", nameof(content));
             }
             if (element.GetDefaultNamespace() == ns)
             {

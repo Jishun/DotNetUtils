@@ -42,7 +42,7 @@ namespace DotNetUtils
         /// Construct a currency format string
         /// </summary>
         /// <param name="symbol">The currency symbol</param>
-        /// <returns>A currrency format string</returns>
+        /// <returns>A currency format string</returns>
         public static string GetCurrencyFormatSpecifier(string symbol)
         {
             return GetCurrencyFormatString(Constants.CurrencyFormatSpecifierPattern, symbol);
@@ -52,7 +52,7 @@ namespace DotNetUtils
         /// Construct a currency format string with currency symbol and decimal part
         /// </summary>
         /// <param name="symbol">The currency symbol</param>
-        /// <returns>A currrency format string</returns>
+        /// <returns>A currency format string</returns>
         public static string GetCurrencyFormatWithDecimalSpecifier(string symbol)
         {
             return GetCurrencyFormatString(Constants.CurrencyFormatWithDecimalSpecifierPattern, symbol);
@@ -62,7 +62,7 @@ namespace DotNetUtils
         /// Construct a currency format string with currency symbol and decimal part up to 4 digits
         /// </summary>
         /// <param name="symbol">The currency symbol</param>
-        /// <returns>A currrency format string</returns>
+        /// <returns>A currency format string</returns>
         public static string GetCurrencyFormatWith4DigitsDecimalSpecifier(string symbol)
         {
             return GetCurrencyFormatString(Constants.CurrencyFormatWith4DigitsDecimalSpecifierPattern, symbol);
@@ -73,7 +73,7 @@ namespace DotNetUtils
         /// </summary>
         /// <param name="pattern">The pattern string</param>
         /// <param name="symbol">The currency symbol</param>
-        /// <returns>A currrency format string</returns>
+        /// <returns>A currency format string</returns>
         private static string GetCurrencyFormatString(string pattern, string symbol)
         {
             if (pattern.IsNullOrWhiteSpace())

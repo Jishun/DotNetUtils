@@ -32,7 +32,7 @@ namespace DotNetUtils
         {
             if (src == null)
             {
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
             }
             _src = src;
             _lineBreakOption = lineBreakOption;
@@ -169,15 +169,15 @@ namespace DotNetUtils
             return ReadTo(trimPattern, out matched, escape, terminitors);
         }
 
-        public string ReadTo(bool trimPattern, out string matched, string escape, params string[] terminitors)
+        public string ReadTo(bool trimPattern, out string matched, string escape, params string[] terminators)
         {
-            if (terminitors.Length == 0)
+            if (terminators.Length == 0)
             {
-                throw new ArgumentNullException("terminitors");
+                throw new ArgumentNullException(nameof(terminators));
             }
-            if (terminitors.Contains(escape))
+            if (terminators.Contains(escape))
             {
-                throw new ArgumentException("Escape cannot be the same with terminitor");
+                throw new ArgumentException("Escape cannot be the same with terminator");
             }
             if (escape == String.Empty)
             {
@@ -187,7 +187,7 @@ namespace DotNetUtils
             PreviousColumn = Column;
             PreviousLine = Line;
             var sb = new StringBuilder();
-            var length = terminitors.Max(t => t.Length);
+            var length = terminators.Max(t => t.Length);
             if (escape != null)
             {
                 length = Math.Max(length, escape.Length);
@@ -205,7 +205,7 @@ namespace DotNetUtils
                     escaping = true;
                 }
                 var escaped = false;
-                foreach (var terminitor in escape == null ? terminitors : terminitors.Append(escape))
+                foreach (var terminitor in escape == null ? terminators : terminators.Append(escape))
                 {
                     if (str.StartsWith(terminitor))
                     {

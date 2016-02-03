@@ -19,9 +19,9 @@ namespace DotNetUtils
         /// Compresses the data using LibLZF algorithm
         /// </summary>
         /// <param name="input">Reference to the data to compress</param>
-        /// <param name="inputLength">Lenght of the data to compress</param>
+        /// <param name="inputLength">Length of the data to compress</param>
         /// <param name="output">Reference to a buffer which will contain the compressed data</param>
-        /// <param name="outputLength">Lenght of the compression buffer (should be bigger than the input buffer)</param>
+        /// <param name="outputLength">Length of the compression buffer (should be bigger than the input buffer)</param>
         /// <returns>The size of the compressed archive in the output buffer</returns>
         public int Compress(byte[] input, int inputLength, byte[] output, int outputLength)
         {
@@ -141,7 +141,7 @@ namespace DotNetUtils
         /// Decompresses the data using LibLZF algorithm
         /// </summary>
         /// <param name="input">Reference to the data to decompress</param>
-        /// <param name="inputLength">Lenght of the data to decompress</param>
+        /// <param name="inputLength">Length of the data to decompress</param>
         /// <param name="output">Reference to a buffer which will contain the decompressed data</param>
         /// <param name="outputLength">The size of the decompressed archive in the output buffer</param>
         /// <returns>Returns decompressed size</returns>

@@ -9,7 +9,7 @@ using System.Xml;
 namespace DotNetUtils
 {
     /// <summary>
-    /// Xml/xsd reference resolver for laoding from embeded resouce.
+    /// Xml/xsd reference resolver for loading from embedded resource.
     /// </summary>
     public class EmbededXmlResolver : XmlUrlResolver
     {
@@ -20,7 +20,7 @@ namespace DotNetUtils
         {
             if (resourceAssembly == null)
             {
-                throw new ArgumentNullException("resourceAssembly");
+                throw new ArgumentNullException(nameof(resourceAssembly));
             }
             _resourceAssembly = resourceAssembly;
             _baseUri = new Uri("res://local/" + baseUri);
@@ -31,7 +31,7 @@ namespace DotNetUtils
             return base.ResolveUri(_baseUri, relativeUri);
         }
 
-        override public object GetEntity(Uri absoluteUri, string role, Type type)
+        public override object GetEntity(Uri absoluteUri, string role, Type type)
         {
             if (absoluteUri.Scheme == "res")
             {

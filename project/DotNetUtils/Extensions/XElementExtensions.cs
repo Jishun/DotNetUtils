@@ -23,12 +23,12 @@ namespace DotNetUtils
         {
             if (element == null)
             {
-                throw new ArgumentNullException("element");
+                throw new ArgumentNullException(nameof(element));
             }
 
             if (expectedName.IsNullOrWhiteSpace())
             {
-                throw new ArgumentNullException("expectedName");
+                throw new ArgumentNullException(nameof(expectedName));
             }
 
             if (element.Name != expectedName)
@@ -47,12 +47,12 @@ namespace DotNetUtils
         {
             if (element == null)
             {
-                throw new ArgumentNullException("element");
+                throw new ArgumentNullException(nameof(element));
             }
 
             if (expectedName.IsNullOrWhiteSpace())
             {
-                throw new ArgumentNullException("expectedName");
+                throw new ArgumentNullException(nameof(expectedName));
             }
 
             return element.Attribute(expectedName) != null;
@@ -67,11 +67,11 @@ namespace DotNetUtils
         {
             if (element == null)
             {
-                throw new ArgumentNullException("element");
+                throw new ArgumentNullException(nameof(element));
             }
             if (expectedName.IsNullOrWhiteSpace())
             {
-                throw new ArgumentNullException("expectedName");
+                throw new ArgumentNullException(nameof(expectedName));
             }
             return element.Element(expectedName) != null;
         }
@@ -86,12 +86,12 @@ namespace DotNetUtils
         {
             if (element == null)
             {
-                throw new ArgumentNullException("element");
+                throw new ArgumentNullException(nameof(element));
             }
 
             if (attributeName.IsNullOrWhiteSpace())
             {
-                throw new ArgumentNullException("attributeName");
+                throw new ArgumentNullException(nameof(attributeName));
             }
             return (int?)element.Attribute(attributeName);
         }
@@ -106,12 +106,12 @@ namespace DotNetUtils
         {
             if (element == null)
             {
-                throw new ArgumentNullException("element");
+                throw new ArgumentNullException(nameof(element));
             }
 
             if (attributeName.IsNullOrWhiteSpace())
             {
-                throw new ArgumentNullException("attributeName");
+                throw new ArgumentNullException(nameof(attributeName));
             }
             return (int)element.ValidateAndGetAttribute(attributeName);
         }
@@ -126,12 +126,12 @@ namespace DotNetUtils
         {
             if (element == null)
             {
-                throw new ArgumentNullException("element");
+                throw new ArgumentNullException(nameof(element));
             }
 
             if (attributeName.IsNullOrWhiteSpace())
             {
-                throw new ArgumentNullException("attributeName");
+                throw new ArgumentNullException(nameof(attributeName));
             }
             return (long?)element.Attribute(attributeName);
         }
@@ -146,12 +146,12 @@ namespace DotNetUtils
         {
             if (element == null)
             {
-                throw new ArgumentNullException("element");
+                throw new ArgumentNullException(nameof(element));
             }
 
             if (attributeName.IsNullOrWhiteSpace())
             {
-                throw new ArgumentNullException("attributeName");
+                throw new ArgumentNullException(nameof(attributeName));
             }
             return (long)element.ValidateAndGetAttribute(attributeName);
         }
@@ -166,12 +166,12 @@ namespace DotNetUtils
         {
             if (element == null)
             {
-                throw new ArgumentNullException("element");
+                throw new ArgumentNullException(nameof(element));
             }
 
             if (attributeName.IsNullOrWhiteSpace())
             {
-                throw new ArgumentNullException("attributeName");
+                throw new ArgumentNullException(nameof(attributeName));
             }
             return (decimal?)element.Attribute(attributeName);
         }
@@ -186,12 +186,12 @@ namespace DotNetUtils
         {
             if (element == null)
             {
-                throw new ArgumentNullException("element");
+                throw new ArgumentNullException(nameof(element));
             }
 
             if (attributeName.IsNullOrWhiteSpace())
             {
-                throw new ArgumentNullException("attributeName");
+                throw new ArgumentNullException(nameof(attributeName));
             }
             return (decimal)element.ValidateAndGetAttribute(attributeName);
         }
@@ -206,12 +206,12 @@ namespace DotNetUtils
         {
             if (element == null)
             {
-                throw new ArgumentNullException("element");
+                throw new ArgumentNullException(nameof(element));
             }
 
             if (attributeName.IsNullOrWhiteSpace())
             {
-                throw new ArgumentNullException("attributeName");
+                throw new ArgumentNullException(nameof(attributeName));
             }
             return (float?)element.Attribute(attributeName);
         }
@@ -226,12 +226,12 @@ namespace DotNetUtils
         {
             if (element == null)
             {
-                throw new ArgumentNullException("element");
+                throw new ArgumentNullException(nameof(element));
             }
 
             if (attributeName.IsNullOrWhiteSpace())
             {
-                throw new ArgumentNullException("attributeName");
+                throw new ArgumentNullException(nameof(attributeName));
             }
             return (float)element.ValidateAndGetAttribute(attributeName);
         }
@@ -246,12 +246,12 @@ namespace DotNetUtils
         {
             if (element == null)
             {
-                throw new ArgumentNullException("element");
+                throw new ArgumentNullException(nameof(element));
             }
 
             if (attributeName.IsNullOrWhiteSpace())
             {
-                throw new ArgumentNullException("attributeName");
+                throw new ArgumentNullException(nameof(attributeName));
             }
             return (double?)element.Attribute(attributeName);
         }
@@ -266,12 +266,12 @@ namespace DotNetUtils
         {
             if (element == null)
             {
-                throw new ArgumentNullException("element");
+                throw new ArgumentNullException(nameof(element));
             }
 
             if (attributeName.IsNullOrWhiteSpace())
             {
-                throw new ArgumentNullException("attributeName");
+                throw new ArgumentNullException(nameof(attributeName));
             }
             return (double)element.ValidateAndGetAttribute(attributeName);
         }
@@ -286,12 +286,12 @@ namespace DotNetUtils
         {
             if (element == null)
             {
-                throw new ArgumentNullException("element");
+                throw new ArgumentNullException(nameof(element));
             }
 
             if (attributeName.IsNullOrWhiteSpace())
             {
-                throw new ArgumentNullException("attributeName");
+                throw new ArgumentNullException(nameof(attributeName));
             }
             return (short)element.ValidateAndGetAttribute(attributeName);
         }
@@ -306,12 +306,12 @@ namespace DotNetUtils
         {
             if (element == null)
             {
-                throw new ArgumentNullException("element");
+                throw new ArgumentNullException(nameof(element));
             }
 
             if (attributeName.IsNullOrWhiteSpace())
             {
-                throw new ArgumentNullException("attributeName");
+                throw new ArgumentNullException(nameof(attributeName));
             }
             return (DateTime?)element.Attribute(attributeName);
         }
@@ -326,12 +326,12 @@ namespace DotNetUtils
         {
             if (element == null)
             {
-                throw new ArgumentNullException("element");
+                throw new ArgumentNullException(nameof(element));
             }
 
             if (attributeName.IsNullOrWhiteSpace())
             {
-                throw new ArgumentNullException("attributeName");
+                throw new ArgumentNullException(nameof(attributeName));
             }
             return (DateTime)element.ValidateAndGetAttribute(attributeName);
         }
@@ -346,11 +346,11 @@ namespace DotNetUtils
         {
             if (element == null)
             {
-                throw new ArgumentNullException("element");
+                throw new ArgumentNullException(nameof(element));
             }
             if (attributeName.IsNullOrWhiteSpace())
             {
-                throw new ArgumentNullException("attributeName");
+                throw new ArgumentNullException(nameof(attributeName));
             }
             var value = (string)element.Attribute(attributeName);
             if (null == value)
@@ -370,12 +370,12 @@ namespace DotNetUtils
         {
             if (element == null)
             {
-                throw new ArgumentNullException("element");
+                throw new ArgumentNullException(nameof(element));
             }
 
             if (attributeName.IsNullOrWhiteSpace())
             {
-                throw new ArgumentNullException("attributeName");
+                throw new ArgumentNullException(nameof(attributeName));
             }
 
             var value = (string)element.Attribute(attributeName);
@@ -410,11 +410,11 @@ namespace DotNetUtils
         {
             if (element == null)
             {
-                throw new ArgumentNullException("element");
+                throw new ArgumentNullException(nameof(element));
             }
             if (attributeName.IsNullOrWhiteSpace())
             {
-                throw new ArgumentNullException("attributeName");
+                throw new ArgumentNullException(nameof(attributeName));
             }
             return (string)element.Attribute(attributeName);
         }
@@ -423,7 +423,7 @@ namespace DotNetUtils
         {
             if (attributeName.IsNullOrWhiteSpace())
             {
-                throw new ArgumentNullException("attributeName");
+                throw new ArgumentNullException(nameof(attributeName));
             }
             var att = element.Attribute(attributeName);
             if (null == att)
@@ -524,7 +524,7 @@ namespace DotNetUtils
         }
 
         /// <summary>
-        /// Get DateTime value from desendant element
+        /// Get DateTime value from descendant element
         /// </summary>
         /// <param name="root">The instance of XElement</param>
         /// <param name="desendantElementName">The descendant element name</param>
@@ -535,7 +535,7 @@ namespace DotNetUtils
             var value = root.SafeGetDescendantElementValue(desendantElementName, ns);
             if (value == null)
             {
-                throw new ArgumentException("Cannot load desendant element {0}".FormatInvariantCulture(desendantElementName), "desendantElementName");
+                throw new ArgumentException("Cannot load descendant element {0}".FormatInvariantCulture(desendantElementName), nameof(desendantElementName));
             }
             var dateTime = default(DateTime);
             if (!DateTime.TryParse(value, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out dateTime))
@@ -546,7 +546,7 @@ namespace DotNetUtils
         }
 
         /// <summary>
-        /// Get DateTime value from desendant element
+        /// Get DateTime value from descendant element
         /// </summary>
         /// <param name="root">The instance of XElement</param>
         /// <param name="desendantElementName">The descendant element name</param>
@@ -568,7 +568,7 @@ namespace DotNetUtils
         }
 
         /// <summary>
-        /// Get decimal value from desendant element
+        /// Get decimal value from descendant element
         /// </summary>
         /// <param name="root">The instance of XElement</param>
         /// <param name="desendantElementName">The descendant element name</param>
@@ -594,7 +594,7 @@ namespace DotNetUtils
         }
 
         /// <summary>
-        /// Get nullable decimal value from desendant element
+        /// Get nullable decimal value from descendant element
         /// </summary>
         /// <param name="root">The instance of XElement</param>
         /// <param name="desendantElementName">The descendant element name</param>
@@ -608,7 +608,7 @@ namespace DotNetUtils
         }
 
         /// <summary>
-        /// Get boolean value from desendant element
+        /// Get boolean value from descendant element
         /// </summary>
         /// <param name="root">The instance of XElement</param>
         /// <param name="desendantElementName">The descendant element name</param>
@@ -623,7 +623,7 @@ namespace DotNetUtils
                 {
                     return false;
                 }
-                throw new ArgumentException("Cannot load desendant element {0}".FormatInvariantCulture(desendantElementName), "desendantElementName");
+                throw new ArgumentException("Cannot load descendant element {0}".FormatInvariantCulture(desendantElementName), nameof(desendantElementName));
             }
             if (value.Equals("Y", StringComparison.OrdinalIgnoreCase) || value.Equals("X", StringComparison.OrdinalIgnoreCase))
             {
@@ -642,7 +642,7 @@ namespace DotNetUtils
         }
 
         /// <summary>
-        /// Get integer value from desendant element
+        /// Get integer value from descendant element
         /// </summary>
         /// <param name="root">The instance of XElement</param>
         /// <param name="desendantElementName">The descendant element name</param>
@@ -653,7 +653,7 @@ namespace DotNetUtils
             var value = root.SafeGetDescendantElementValue(desendantElementName, ns);
             if (value == null)
             {
-                throw new ArgumentException("Cannot load desendant element {0}".FormatInvariantCulture(desendantElementName), "desendantElementName");
+                throw new ArgumentException("Cannot load descendant element {0}".FormatInvariantCulture(desendantElementName), "desendantElementName");
             }
             var integerValue = default(int);
             if (!int.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out integerValue))
@@ -707,7 +707,7 @@ namespace DotNetUtils
         }
 
         /// <summary>
-        /// Deserialize xml the xml using XmlSerializer
+        /// De serialize xml the xml using XmlSerializer
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="xElement"></param>
@@ -716,7 +716,7 @@ namespace DotNetUtils
         {
             if (element == null)
             {
-                throw new ArgumentNullException("element");
+                throw new ArgumentNullException(nameof(element));
             }
             using (var memoryStream = new MemoryStream(Encoding.ASCII.GetBytes(element.ToString())))
             {

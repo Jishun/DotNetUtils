@@ -42,7 +42,7 @@ namespace DotNetUtils
         /// <typeparam name="T"></typeparam>
         /// <param name="collection">The collection.</param>
         /// <param name="action">The action.</param>
-        /// <param name="continueOnException">Func to determine whether to continue on an exception</param>
+        /// <param name="continueOnException">Function to determine whether to continue on an exception</param>
         public static void ForEachParallel<T>(this IEnumerable<T> collection, Action<T> action, Func<Exception, bool> continueOnException)
         {
             using (var helper = new ForEachParallelHelper(continueOnException))
@@ -57,7 +57,7 @@ namespace DotNetUtils
         /// <typeparam name="T"></typeparam>
         /// <param name="collection">The collection.</param>
         /// <param name="action">The action.</param>
-        /// <param name="continueOnException">Func to determine whether to continue on an exception</param>
+        /// <param name="continueOnException">Function to determine whether to continue on an exception</param>
         public static void ForEachParallel<T>(this IEnumerable<T> collection, Action<T> action, bool continueOnException)
         {
             collection.ForEachParallel(action, e => continueOnException);
@@ -84,7 +84,7 @@ namespace DotNetUtils
         }
 
         /// <summary>
-        /// Assigns each value from the right to the coresponding element in the left according to the action.
+        /// Assigns each value from the right to the corresponding element in the left according to the action.
         /// </summary>
         /// <typeparam name="T1"></typeparam>
         /// <typeparam name="T2"></typeparam>
@@ -413,7 +413,7 @@ namespace DotNetUtils
         }
 
         /// <summary>
-        /// Returns sum of given collection, if colletion is null or no item matches selector, it will return null
+        /// Returns sum of given collection, if collection is null or no item matches selector, it will return null
         /// </summary>
         public static decimal? NullableSum<TItem>(this IEnumerable<TItem> collection, Func<TItem, decimal?> selector)
         {
@@ -489,7 +489,7 @@ namespace DotNetUtils
                     // until we are ready to perform the action so that any lazy-load work done by
                     // the enumerator is done as close to the action as possible.
                     // The additional items queued are very small and exit at the first "if" statement.
-                    // The .NET 4.0 ThreadPool will enable cancelling of queued items -- although by
+                    // The .NET 4.0 ThreadPool will enable canceling of queued items -- although by
                     // then we'll also have the Task Parallel Library.
                     this.Queue(enumerator, action);
 

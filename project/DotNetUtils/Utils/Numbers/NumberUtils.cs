@@ -35,7 +35,7 @@ namespace DotNetUtils
         /// Calculate the least common multiplier
         /// </summary>
         /// <param name="a">number 1</param>
-        /// <param name="b">numer 2</param>
+        /// <param name="b">number 2</param>
         /// <returns>least common multiplier</returns>
         public static uint LCM(uint a, uint b)
         {

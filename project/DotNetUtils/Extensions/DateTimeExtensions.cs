@@ -32,7 +32,7 @@ namespace DotNetUtils
         /// <summary>
         /// Get the closet date for target DayOfWeek
         /// </summary>
-        /// <param name="date">The originial date</param>
+        /// <param name="date">The original date</param>
         /// <param name="target">The target of DayOfWeek</param>
         /// <returns>The closet date which is target day of week</returns>
         public static DateTime GetClosetDate(this DateTime date, DayOfWeek target)
@@ -54,7 +54,7 @@ namespace DotNetUtils
         /// <summary>
         /// Get the current month start date
         /// </summary>
-        /// <param name="date">The originial date</param>
+        /// <param name="date">The original date</param>
         /// <returns>The current month start date</returns>
         public static DateTime GetMonthStartDate(this DateTime date)
         {
@@ -64,7 +64,7 @@ namespace DotNetUtils
         /// <summary>
         /// Get the current month end date
         /// </summary>
-        /// <param name="date">The originial date</param>
+        /// <param name="date">The original date</param>
         /// <returns>The current month start date</returns>
         public static DateTime GetMonthEndDate(this DateTime date)
         {
@@ -75,7 +75,7 @@ namespace DotNetUtils
         /// <summary>
         /// Get the current quarter start date
         /// </summary>
-        /// <param name="date">The originial date</param>
+        /// <param name="date">The original date</param>
         /// <returns>The current quarter start date</returns>
         public static DateTime GetQuarterStartDate(this DateTime date)
         {
@@ -106,7 +106,7 @@ namespace DotNetUtils
         /// <summary>
         /// Get the current quarter end date
         /// </summary>
-        /// <param name="date">The originial date</param>
+        /// <param name="date">The original date</param>
         /// <returns>The current quarter end date</returns>
         public static DateTime GetQuarterEndDate(this DateTime date)
         {
@@ -137,7 +137,7 @@ namespace DotNetUtils
         /// <summary>
         /// Get the current quarter end month
         /// </summary>
-        /// <param name="date">The originial date</param>
+        /// <param name="date">The original date</param>
         /// <returns>The current quarter end date</returns>
         public static int GetQuarterEndMonth(this DateTime date)
         {
@@ -147,7 +147,7 @@ namespace DotNetUtils
         /// <summary>
         /// Get the current quarter
         /// </summary>
-        /// <param name="date">The originial date</param>
+        /// <param name="date">The original date</param>
         /// <returns>The current quarter</returns>
         public static int GetQuarter(this DateTime date)
         {
@@ -157,7 +157,7 @@ namespace DotNetUtils
         /// <summary>
         /// Get the current year start date
         /// </summary>
-        /// <param name="date">The originial date</param>
+        /// <param name="date">The original date</param>
         /// <returns>The current quarter start date</returns>
         public static DateTime GetYearStartDate(this DateTime date)
         {
@@ -221,7 +221,7 @@ namespace DotNetUtils
         /// Get the Julian date from date time instance
         /// </summary>
         /// <param name="dateTime">The datetime instance</param>
-        /// <returns>The julian date</returns>
+        /// <returns>The Julian date</returns>
         public static int ToJulianDate(this DateTime dateTime)
         {
             return dateTime.Year * 1000 + dateTime.DayOfYear;

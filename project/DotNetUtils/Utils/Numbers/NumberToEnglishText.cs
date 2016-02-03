@@ -49,7 +49,7 @@ namespace DotNetUtils
             "Ninety"
         };
 
-        // US Nnumbering:
+        // US:
         private static readonly string[] Thousands =
         {
             String.Empty,
