@@ -208,6 +208,27 @@ namespace DotNetUtils
         }
 
         /// <summary>
+        /// Break a list of items into chunks of a specific size
+        /// </summary>
+        public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> source, int chunksize)
+        {
+            if (source != null && chunksize > 0)
+            {
+                var list = new List<T>();
+                foreach (var item in source)
+                {
+                    list.Add(item);
+                    if (list.Count == chunksize)
+                    {
+                        yield return list;
+                        list = new List<T>();
+                    }
+                }
+            }
+        }
+
+
+        /// <summary>
         /// Adds all items to the collection.
         /// </summary>
         /// <typeparam name="T"></typeparam>
