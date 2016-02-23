@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>DotNetUtils</id>
-    <version>1.0.1.0</version>
+    <version>1.0.1.1</version>
     <title>.Net Utils</title>
     <authors>Jishun Duan</authors>
     <owners>Jishun Duan</owners>
@@ -14,6 +14,7 @@
     <releaseNotes>
         Add Chunk method for IEnumerable to chunk a list into multiple
         fix typos
+        fix misplaced dependency
     </releaseNotes>
     <copyright>Copyright Jishun Duan, 2011-2015</copyright>
     <tags>C#,.Net,Extension,Utilities</tags>
