@@ -1341,5 +1341,34 @@ namespace DotNetUtils
             return index > src.Length - 1 ? src : index < 1 ? String.Empty : src.Substring(0, index);
         }
 
+        /// <summary>
+        /// Check if a char value is visible
+        /// </summary>
+        /// <param name="c"></param>
+        /// <param name="includeLineFeeds">pass true to treat cr-lf as visible</param>
+        /// <returns></returns>
+        public static bool IsVisibleChar(this char c, bool includeLineFeeds = true)
+        {
+            return ((byte) c).IsVisibleChar(includeLineFeeds);
+        }
+
+        /// <summary>
+        /// Check if a char value is visible
+        /// </summary>
+        /// <param name="c"></param>
+        /// <param name="includeLineFeeds">pass true to treat cr-lf as visible</param>
+        /// <returns></returns>
+        public static bool IsVisibleChar(this byte c, bool includeLineFeeds = true)
+        {
+            if ((c >= 0x20 && c < 0x7f) || c == '\t')
+            {
+                return true;
+            }
+            if (includeLineFeeds)
+            {
+                return c == '\r' || c == '\n';
+            }
+            return false;
+        }
     }
 }
