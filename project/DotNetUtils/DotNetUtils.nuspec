@@ -6,9 +6,9 @@
     <title>.Net Utils</title>
     <authors>Jishun Duan</authors>
     <owners>Jishun Duan</owners>
-    <licenseUrl>https://github.com/djsxp/DotNetUtils/blob/master/LICENSE</licenseUrl>
-    <projectUrl>https://github.com/djsxp/DotNetUtils</projectUrl>
-    <iconUrl>https://github.com/djsxp/DotNetUtils</iconUrl>
+    <licenseUrl>https://github.com/jishun/DotNetUtils/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/jishun/DotNetUtils</projectUrl>
+    <iconUrl>https://github.com/jishun/DotNetUtils</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Useful Utilities and Extensions for daily .Net programming </description>
     <releaseNotes>
